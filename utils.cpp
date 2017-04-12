@@ -18,6 +18,7 @@ Game parse_game(const char *arg) {
     else if (string=="blocks") return BLOCKS;
     else if (string=="matches") return MATCHES;
     else if (string=="awale") return AWALE;
+    else if (string=="ttt") return TTT;
     else return OTHELLO;
 }
 
