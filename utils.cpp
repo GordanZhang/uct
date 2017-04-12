@@ -8,6 +8,7 @@
 #include "boardblocks.h"
 #include "boardmatches.h"
 #include "boardawale.h"
+#include "board_ttt.h"
 
 Game parse_game(const char *arg) {
     std::string string(arg);
@@ -24,7 +25,7 @@ float parse_float(const char *str,float defvalue) {
     std::stringstream ss(str);
     float v = 0;
     ss >> v;
-    
+
     if (ss.fail()) return defvalue;
 
     return v;
@@ -51,6 +52,9 @@ Board *choose_game(Game game) {
 	case AWALE:
 		std::cout<<"awale"<<std::endl;
 		return new BoardAwale();
+	case TTT:
+		std::cout<<"Tic tac toe!"<<std::endl;
+		return new BoardTTT();
 	default:
 		throw "Unknown game!";
 	}

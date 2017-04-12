@@ -12,3 +12,4 @@ human_bot
 test_board
 test_nested
 test_uct
+*.pyc

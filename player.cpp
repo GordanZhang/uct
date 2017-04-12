@@ -77,13 +77,13 @@ Move *PlayerBot::get_move(const Board *board, const Move * last_move) {
     move->print();
     std::cout<<std::endl;
 
+	Move *copy=move->deepcopy();
     //play best_move
 	root=root->advance_and_detach(move);
     //std::cout<<"after playing best_move"<<std::endl;
     //root->print_tree();
 
 
-	Move *copy=move->deepcopy();
 	return copy;
 }
 

@@ -1,11 +1,13 @@
 PROJECT(uct_bots)
 cmake_minimum_required(VERSION 2.4)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
 #libraries
 ADD_LIBRARY(board
 uct.cpp player.cpp utils.cpp
 boardc4.cpp boardc5.cpp boardblocks.cpp boardothello.cpp boardmatches.cpp
-boardawale.cpp board.cpp)
+boardawale.cpp board_ttt.cpp board.cpp)
 
 #tests
 ADD_EXECUTABLE(test_nested test_nested.cpp)

@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
 	std::cout.setf(std::ios::fixed,std::ios::floatfield);
     srand(time(NULL));
 
-    Game game=OTHELLO;
+    Game game=TTT;
     if (argc>1) game=parse_game(argv[1]);
     Board *board=choose_game(game);
 

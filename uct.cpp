@@ -33,7 +33,7 @@ Node * Node::advance_and_detach(const Move *move) {
 			break;
         }
 	}
-	
+
     Value old_uct_constant = uct_constant; //FUCK YOU BITCH
     delete this;
 	if (new_root) return new_root;
@@ -65,7 +65,7 @@ void Node::print() const {
     if (nb>0 and father) std::cout<<",score="<<get_score();
     if (nb>0) std::cout<<",value="<<value<<",prop="<<get_winning_probability();
 
-    std::cout<<"]";
+    std::cout<<"]"<<std::endl;
 }
 
 void Node::print_tree(int indent,int maxindent) const {
@@ -156,8 +156,8 @@ Token Node::play_random_game(Board *board,Token player) {
     //else assert(move->player==NOT_PLAYED);
 
     assert(mode==NORMAL);
-    
-    if (father) board->play_move(*move); //root as no move
+
+    if (father) board->play_move(*move); //root has no move
 
     if (father) {
         Token winner=board->check_for_win();
@@ -264,7 +264,7 @@ void Node::update_father(Value value) {
 
 void Node::propagate_winning_to_granpa() {
     mode=WINNER;
-    
+
     if (father) {
         father->mode=LOOSER;
         if (father->father) {
@@ -275,7 +275,7 @@ void Node::propagate_winning_to_granpa() {
 
 void Node::propagate_loosing_to_daddy() {
     mode=LOOSER;
-    
+
     if (father) {
 		father->tell_granpa_dad_is_a_looser();
     }
