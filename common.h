@@ -14,8 +14,8 @@ inline Token other_player(Token player) {
 		return PLAYER_2;
 	case PLAYER_2:
 		return PLAYER_1;
-    default:
-		assert(false);
+	default:
+		throw "Unknown player";
 	}
 }
 
