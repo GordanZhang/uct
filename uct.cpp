@@ -205,7 +205,7 @@ Token Node::play_random_game(Board *board,Token player) {
     for (Nodes::iterator iter=children.begin(); iter!=children.end(); iter++) {
         Node *child=*iter;
 
-        if (not child->mode==LOOSER and (not best_child or best_score<child->get_score())) {
+        if (not (child->mode==LOOSER) and (not best_child or best_score<child->get_score())) {
              best_score=child->get_score();
              best_child=child;
         }
@@ -234,7 +234,7 @@ ConstNodes Node::get_best_branch_down() const {
     ConstNodes branch;
     const Node *current=this;
 
-    while (current and not current->mode==WINNER) {
+    while (current and not (current->mode==WINNER)) {
         branch.push_back(current);
         current=current->get_best_child();
     }
@@ -287,7 +287,7 @@ void Node::recompute_inheritance() {
     for (Nodes::const_iterator iter=children.begin(); iter!=children.end(); iter++) {
         const Node *child=*iter;
 
-        if (not child->mode==LOOSER) {
+        if (not (child->mode==LOOSER)) {
             nb+=child->nb;
             value+=child->nb-child->value;
         }
@@ -304,7 +304,7 @@ void Node::tell_granpa_dad_is_a_looser() {
     for (Nodes::const_iterator iter=children.begin(); iter!=children.end(); iter++) {
         const Node *child=*iter;
 
-        if (not child->mode==LOOSER) {
+        if (not (child->mode==LOOSER)) {
             new_nb+=child->nb;
             new_value+=child->nb-child->value;
         }

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cstdlib>
 
-int main(int argc, char *argv[]) {
+int main() {
 	std::cout.precision(2);
 	std::cout.setf(std::ios::fixed,std::ios::floatfield);
     srand(time(NULL));

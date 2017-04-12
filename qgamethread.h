@@ -21,12 +21,11 @@ signals:
 	void move_played();
 
 private:
-	QMutex *mutex;
-	bool abort;
-
 	Player *player_a;
 	Player *player_b;
 	Board *board;
+	bool abort;
+	QMutex *mutex;
 };
 
 #endif

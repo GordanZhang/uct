@@ -4,6 +4,7 @@
 //abstract class definition
 struct Move {
     virtual void print_move() const =0;
+		virtual ~Move() {};
 };
 
 typedef std::vector<Move*> Moves;
@@ -13,6 +14,7 @@ struct Board {
 
 	virtual void print_board() const =0;
 	virtual Moves get_moves() const=0;
+	virtual ~Board() {};
 
 	Move *move;
 };
@@ -56,7 +58,7 @@ struct BoardB: public Board {
 };
 
 //do the stuff
-int main(int argc, char *argv[]) {
+int main() {
 	Boards boards;
 	boards.push_back(new BoardA());
 	boards.push_back(new BoardB());

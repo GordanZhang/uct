@@ -44,10 +44,13 @@ protected:
 	void propagate_loosing_to_daddy();
     void recompute_inheritance();
     void tell_granpa_dad_is_a_looser();
-	Value uct_constant;
 
 private:
+    const Move *move;
     Node *father;
+protected:
+		Value uct_constant;
+private:
     //Nodes good_children;
     Nodes children;
     Moves unexplored_moves;
@@ -57,7 +60,6 @@ private:
     Value simulation_value;
 
     Mode mode;
-    const Move *move;
 };
 
 #endif

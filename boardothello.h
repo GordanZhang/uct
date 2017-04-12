@@ -24,7 +24,7 @@ public:
 	BoardOthello(Size width=8,Size height=8);
 	virtual ~BoardOthello();
 
-    virtual Board *deepcopy() const;
+	virtual Board *deepcopy() const;
 	virtual Move *parse_move_string(Token player,const char *string) const;
 	virtual void print() const;
 	inline virtual bool is_move_valid(const Move &move) const;
@@ -40,12 +40,12 @@ protected:
 	Size switch_tokens(Token player,Size column, Size row, Size dcolumn, Size drow);
 
 private:
-	Size player_1_score, player_2_score;
-	Size cant_play_count;
-
 	Size width;
 	Size height;
 	Size size,played_count;
+	Size cant_play_count;
+	Size player_1_score, player_2_score;
+
 	Token *flat;
 	Token **tokens;
 };

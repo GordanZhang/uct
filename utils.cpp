@@ -51,6 +51,8 @@ Board *choose_game(Game game) {
 	case AWALE:
 		std::cout<<"awale"<<std::endl;
 		return new BoardAwale();
+	default:
+		throw "Unknown game!";
 	}
 }
 

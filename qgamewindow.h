@@ -15,16 +15,15 @@
 class QPlayer : public QGroupBox {
 Q_OBJECT
 public:
-    QPlayer(Token player);
-
-    Player *get_player() const;
+	QPlayer(Token player);
+	Player *get_player() const;
 
 protected slots:
 	void update_desc();
 
 private:
-    QSlider time,iter;
-    Token player;
+	Token player;
+	QSlider time,iter;
 	QLabel desc;
 };
     
@@ -39,15 +38,14 @@ protected slots:
     void game_ended();
 
 private:
-    QMutex mutex;
-    QPushButton start;
-    QLabel winner_label;
-    QPlayer qplayer_a,qplayer_b;
-    QBoardC4 *board_widget;
-    Player *player_a,*player_b;
+	QLabel winner_label;
+	QPushButton start;
+	QMutex mutex;
+	QPlayer qplayer_a,qplayer_b;
+	QBoardC4 *board_widget;
+	Player *player_a,*player_b;
+	QGameThread *thread;
 	Board *board;
-
-    QGameThread *thread;
 };
 
 

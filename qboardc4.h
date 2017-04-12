@@ -11,17 +11,19 @@ Q_OBJECT
 public:
 	QBoardC4(QMutex *mutex,Board *board,int cell_size=100);
 
-	Board *board;
 
 protected:
 	virtual void paintEvent(QPaintEvent * event);
 
 private:
-    QMutex *mutex;
+	QMutex *mutex;
+public:
+	Board *board;
+private:
 	int cell_size;
-	int cell_border;
 	int border_size;
-    Size width,height,win_length;
+	int cell_border;
+	Size width,height,win_length;
 };
 
 
