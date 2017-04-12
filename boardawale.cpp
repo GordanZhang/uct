@@ -244,6 +244,9 @@ BoardAwale::play_random_move(Token player)
 				selected_iter++;
 		}
 		play_move(**selected_iter);
+		for(auto m:possible_moves) {
+			delete m;
+		}
 
 		return true;
 }
