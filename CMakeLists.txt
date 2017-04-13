@@ -7,7 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 ADD_LIBRARY(board
 uct.cpp player.cpp utils.cpp
 boardc4.cpp boardc5.cpp boardblocks.cpp boardothello.cpp boardmatches.cpp
-boardawale.cpp board_ttt.cpp board.cpp)
+boardawale.cpp board_ttt.cpp board_betting.cpp board.cpp)
 
 #tests
 ADD_EXECUTABLE(test_nested test_nested.cpp)

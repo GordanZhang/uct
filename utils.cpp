@@ -9,6 +9,7 @@
 #include "boardmatches.h"
 #include "boardawale.h"
 #include "board_ttt.h"
+#include "board_betting.h"
 
 Game parse_game(const char *arg) {
     std::string string(arg);
@@ -19,6 +20,7 @@ Game parse_game(const char *arg) {
     else if (string=="matches") return MATCHES;
     else if (string=="awale") return AWALE;
     else if (string=="ttt") return TTT;
+    else if (string=="betting") return BETTING;
     else return OTHELLO;
 }
 
@@ -56,6 +58,9 @@ Board *choose_game(Game game) {
 	case TTT:
 		std::cout<<"Tic tac toe!"<<std::endl;
 		return new BoardTTT();
+  case BETTING:
+    std::cout<<"Betting tic tac toe"<<std::endl;
+    return new BoardBetting();
 	default:
 		throw "Unknown game!";
 	}

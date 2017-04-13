@@ -1,28 +1,27 @@
-#ifndef __BOARDTTT__
-#define __BOARDTTT__
+#ifndef __BOARDBetting__
+#define __BOARDBetting__
 
 #include <array>
 #include "board.h"
+#include "board_ttt.h"
 
-class MoveTTT : public Move {
-friend class BoardTTT;
+class MoveBetting : public Move {
 friend class BoardBetting;
 public:
-	MoveTTT(Token player,Size row, Size column);
+	MoveBetting(Token player,int bet);
 
   virtual void print() const;
 	virtual Move *deepcopy() const;
 	virtual bool compare (const Move& move) const;
 
-private:
-    Size row;
-    Size column;
+protected:
+  int bet;
 };
 
-class BoardTTT : public Board {
+class BoardBetting : public Board {
 public:
-	BoardTTT();
-	virtual ~BoardTTT();
+	BoardBetting();
+	virtual ~BoardBetting();
 
   virtual Board *deepcopy() const;
 	virtual Move *parse_move_string(Token player,const char *string) const;
@@ -34,9 +33,10 @@ public:
 	virtual bool play_random_move(Token player);
 	virtual Token check_for_win() const;
 
-private:
+protected:
   std::array<std::array<Token, 3>, 3> board;
   int played_count;
+  std::array<int, 2> credits;
 };
 
 #endif
