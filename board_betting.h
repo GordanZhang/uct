@@ -35,6 +35,7 @@ public:
 	virtual Token check_for_win() const;
 
 protected:
+  bool board_full();
   std::array<std::array<Token, 3>, 3> board;
   int played_count;
   std::array<int, 2> credits;

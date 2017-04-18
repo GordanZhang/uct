@@ -153,7 +153,7 @@ void BoardBetting::play_move(const Move &abstract_move) {
 }
 
 bool BoardBetting::play_random_move(Token player) {
-	if (played_count<9) {
+	if (played_count%4 < 2 or not board_full()) {
 		Moves possible_moves=get_possible_moves(player);
     assert(not possible_moves.empty());
 
@@ -193,3 +193,13 @@ Token BoardBetting::check_for_win() const {
   return NOT_PLAYED;
 }
 
+bool BoardBetting::board_full() {
+  for(int i=0; i<3; ++i) {
+    for (int j=0; j<3; ++j) {
+      if (board[i][j] == NOT_PLAYED) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
