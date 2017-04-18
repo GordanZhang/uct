@@ -25,7 +25,9 @@ bool MoveBetting::compare (const Move& abstract_move) const {
 }
 
 BoardBetting::BoardBetting() : played_count(0),
-  credits({{START_CREDITS,START_CREDITS}})
+  credits({{START_CREDITS,START_CREDITS}}),
+  bet_p1(0),
+  bet_winner(NOT_PLAYED)
 {
   for (int i=0; i<3; ++i) {
     board[i].fill(NOT_PLAYED);
@@ -40,21 +42,35 @@ Board *BoardBetting::deepcopy() const {
     //copy last move and played_count
     copy->board=board;
     copy->played_count = played_count;
+    copy->credits = credits;
+    copy->bet_p1 = bet_p1;
+    copy->bet_winner = bet_winner;
     return copy;
 }
 
 Move *BoardBetting::parse_move_string(Token player,const char *string) const {
 	std::stringstream stream(std::stringstream::in | std::stringstream::out);
+  int movetype;
 	int row=-1, column=-1;
 
 	stream<<string;
-	stream>>row>>column;
-
-  std::cout << column << ":" << row << std::endl;
+  movetype = stream.get();
 
 	if (stream.fail()) return NULL;
 
-	Move *move=new MoveTTT(player,row, column);
+  Move* move = nullptr;
+  if (movetype == 'p') {
+    stream>>row>>column;
+    std::cout << movetype << ":" << column << ":" << row << std::endl;
+    move=new MoveTTT(player,row, column);
+  } else if (movetype == 'b') {
+    int amount;
+    stream>>amount;
+    std::cout << movetype << ":" << amount << std::endl;
+    move=new MoveBetting(player,amount);
+  } else {
+    throw "Invalid move string";
+  }
 
 	if (is_move_valid(*move)) return move;
 
@@ -69,35 +85,70 @@ void BoardBetting::print() const {
     }
     std::cout << std::endl;
   }
+  std::cout << "Credits: " << credits[0] << "/" << credits[1] << std::endl;
   std::cout << "Played count: " << played_count << std::endl;
 }
 
 bool BoardBetting::is_move_valid(const Move &abstract_move) const {
-	return is_move_valid(dynamic_cast<const MoveTTT&>(abstract_move));
+  if (dynamic_cast<const MoveTTT*>(&abstract_move)) {
+    return is_move_valid(dynamic_cast<const MoveTTT&>(abstract_move));
+  } else if (dynamic_cast<const MoveBetting*>(&abstract_move)) {
+    return is_move_valid(dynamic_cast<const MoveBetting&>(abstract_move));
+  } else {
+    throw "Unsupported move type";
+  }
 }
 
 bool BoardBetting::is_move_valid(const MoveTTT &move) const {
 	return move.player!=NOT_PLAYED and move.column>=0 and move.column<3
     and move.row>=0 and move.row < 3
-    and board[move.row][move.column] == NOT_PLAYED;
+    and board[move.row][move.column] == NOT_PLAYED
+    and played_count % 4 >= 2; // TTT move
+}
+
+bool BoardBetting::is_move_valid(const MoveBetting &move) const {
+	return move.player!=NOT_PLAYED
+    and move.bet >= 0
+    and move.bet <= credits[move.player-1]
+    and played_count % 4 < 2; // TTT move
 }
 
 Moves BoardBetting::get_possible_moves(Token player) const {
 	Moves moves;
-  for(int i=0; i<3; ++i) {
-    for (int j=0; j<3; ++j) {
-      if (board[i][j] == NOT_PLAYED) {
-        moves.push_back(new MoveTTT(player,i,j));
+  if (played_count%4 >=2) {
+    for(int i=0; i<3; ++i) {
+      for (int j=0; j<3; ++j) {
+        if (board[i][j] == NOT_PLAYED) {
+          moves.push_back(new MoveTTT(player,i,j));
+        }
       }
+    }
+  } else {
+    for(int i=0; i<= credits[player-1]; ++i) {
+      moves.push_back(new MoveBetting(player, i));
     }
   }
 	return moves;
 }
 
 void BoardBetting::play_move(const Move &abstract_move) {
-	const MoveTTT &move=dynamic_cast<const MoveTTT&>(abstract_move);
-	assert(this->is_move_valid(move));
-  board[move.row][move.column] = move.player;
+  if (played_count%4 >= 2) {
+    const MoveTTT &move=dynamic_cast<const MoveTTT&>(abstract_move);
+    assert(this->is_move_valid(move));
+    if (bet_winner == move.player) {
+      board[move.row][move.column] = move.player;
+    }
+  } else {
+    const MoveBetting &move=dynamic_cast<const MoveBetting&>(abstract_move);
+    assert(this->is_move_valid(move));
+    if (played_count%4 == 0) {
+      bet_p1 = move.bet;
+    } else {
+      credits[PLAYER_1-1] += (move.bet - bet_p1);
+      credits[PLAYER_2-1] += (bet_p1 - move.bet);
+      bet_winner = bet_p1 >= move.bet ? PLAYER_1 : PLAYER_2; // FIXME implement real rule
+    }
+  }
 	played_count++;
 }
 
@@ -114,7 +165,7 @@ bool BoardBetting::play_random_move(Token player) {
 		}
 		play_move(**selected_iter);
 
-		for (Moves::iterator iter=possible_moves.begin(); iter!=possible_moves.end(); iter++) delete *iter;
+		for (auto *i: possible_moves) delete i;
 
 		return true;
 	} else {

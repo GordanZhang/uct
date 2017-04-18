@@ -6,7 +6,7 @@
 #define MAX_INPUT_LENGTH 256
 
 typedef int Size;
-typedef enum {NOT_PLAYED,PLAYER_1,PLAYER_2} Token;
+typedef enum {NOT_PLAYED=0,PLAYER_1=1,PLAYER_2=2} Token;
 
 inline Token other_player(Token player) {
 	switch (player) {
