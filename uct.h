@@ -41,9 +41,9 @@ protected:
 
     void update_father(Value value);
     void propagate_winning_to_granpa();
-	void propagate_loosing_to_daddy();
+	void propagate_losing_to_daddy();
     void recompute_inheritance();
-    void tell_granpa_dad_is_a_looser();
+    void tell_granpa_dad_is_a_loser();
 
 private:
     const Move *move;

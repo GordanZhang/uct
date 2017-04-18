@@ -67,9 +67,9 @@ Move *PlayerBot::get_move(const Board *board, const Move * last_move) {
 		std::cout<<"normal "<<best_child->get_winning_probability()<<" ";
 		break;
 	case WINNER:
-		std::cout<<"loosing ";
+		std::cout<<"losing ";
 		break;
-	case LOOSER:
+	case LOSER:
 		std::cout<<"winning ";
 		break;
 	}
